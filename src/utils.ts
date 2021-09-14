@@ -1,4 +1,4 @@
-import { window } from 'coc.nvim';
+import { window, workspace, Range } from 'coc.nvim';
 import * as path from 'path';
 import { IImgInfo } from 'picgo/dist/src/utils/interfaces';
 import { IOutputUrl, IUploadName } from './picgo';
@@ -78,4 +78,29 @@ export function getUploadedName(imgInfo: IImgInfo): string {
   }
   let basename = path.basename(fullName, path.extname(fullName));
   return basename;
+}
+
+export async function detectImgUrlRange(): Promise<Range|undefined> {
+  const doc = await workspace.document
+  const cursor = await window.getCursorPosition()
+  const line = doc.getline(cursor.line)
+
+  // ![txt](url "title")
+  const link = new RegExp(
+    /(!\[[^\[\]]*\]\()/.source // ![txt](
+      + /([^\(\)"]*)/.source // url
+      + /(?:\s*"[^"]*")?\)/.source // "title")
+    , 'g');
+
+  let matched = line.matchAll(link);
+  for (const i of matched) {
+    if (typeof i.index == "undefined") {
+      break
+    }
+
+    if (cursor.character >= i.index && cursor.character <= i.index + i[0].length) {
+      return Range.create(cursor.line, i.index + i[1].length,
+        cursor.line, i.index + i[1].length + i[2].length)
+    }
+  }
 }

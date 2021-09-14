@@ -12,6 +12,7 @@ import {
   getUploadedName,
   showError,
   showInfo,
+  detectImgUrlRange,
 } from './utils';
 
 const _ = require('lodash');
@@ -54,9 +55,9 @@ export default class VSPicgo extends EventEmitter {
     super();
     this.configPicgo();
     // Before upload, we change names of the images.
-    this.registerRenamePlugin();
+    //this.registerRenamePlugin();
     // After upload, we use the custom output format.
-    this.addGenerateOutputListener();
+    //this.addGenerateOutputListener();
   }
 
   configPicgo() {
@@ -74,6 +75,41 @@ export default class VSPicgo extends EventEmitter {
       const picBed = config.get('picBed');
       VSPicgo.picgo.setConfig({ picBed });
     }
+  }
+
+  addChangeUrlListener() {
+    VSPicgo.picgo.on('finished', async (ctx: PicGo) => {
+      let url = ctx.output[0].imgUrl;
+      try {
+        await this.updateData(ctx.output);
+      } catch (err) {
+        if (err instanceof SyntaxError) {
+          showError(
+            `the data file ${this.dataPath} has syntax error, ` +
+              `please fix the error by yourself or delete the data file and vs-picgo will recreate for you.`,
+          );
+        } else {
+          showError(
+            `failed to read from data file ${this.dataPath}: ${err || ''}`,
+          );
+        }
+        return;
+      }
+      const doc = await workspace.document;
+      if (!doc) return;
+
+      let edits: TextEdit[] = [];
+      const urlRange = await detectImgUrlRange()
+      if (!urlRange) {
+        showError("Can not detect img url to be replaced!!")
+        showError(`uploaded url is ${url}`)
+        return
+      }
+      edits.push(TextEdit.replace(urlRange, url))
+      await doc.applyEdits(edits);
+      showInfo(`image uploaded successfully.`);
+      this.emit(EVSPicgoHooks.updated, url);
+    });
   }
 
   addGenerateOutputListener() {

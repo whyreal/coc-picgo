@@ -13,11 +13,28 @@ import {
 import * as fs from 'fs';
 import * as path from 'path';
 import VSPicgo from './picgo';
+import {detectImgUrlRange} from './utils';
 
 function uploadImageFromClipboard(
   vspicgo: VSPicgo,
 ): Promise<string | void | Error> {
   return vspicgo.upload();
+}
+
+async function uploadImageFromCursor(vspicgo: VSPicgo) {
+  const urlRange = await detectImgUrlRange()
+  if (!urlRange) {
+    return window.showMessage('Can not detect image url!!');
+  }
+
+  const doc = await workspace.document
+  const url = doc.textDocument.getText(urlRange)
+
+  if (!url) {
+    return window.showMessage('Can not detect image url!!');
+  }
+
+  return vspicgo.upload([url]);
 }
 
 async function uploadImageFromInputBox(
@@ -70,7 +87,6 @@ class ReactRefactorCodeActionProvider implements CodeActionProvider {
 }
 
 export async function activate(context: ExtensionContext): Promise<void> {
-  const vspicgo = new VSPicgo();
   const disposable = [
     languages.registerCodeActionProvider(
       [{ scheme: 'file', pattern: '**/*.{md,markdown}' }],
@@ -78,12 +94,22 @@ export async function activate(context: ExtensionContext): Promise<void> {
       'coc-picgo',
     ),
     commands.registerCommand('picgo.uploadImageFromClipboard', async mode => {
+      const vspicgo = new VSPicgo();
+      vspicgo.addGenerateOutputListener()
       vspicgo.mode = mode;
       uploadImageFromClipboard(vspicgo);
     }),
     commands.registerCommand('picgo.uploadImageFromInputBox', mode => {
+      const vspicgo = new VSPicgo();
+      vspicgo.addGenerateOutputListener()
       vspicgo.mode = mode;
       uploadImageFromInputBox(vspicgo);
+    }),
+    commands.registerCommand('picgo.uploadImageFromCursor', mode => {
+      const vspicgo = new VSPicgo();
+      vspicgo.addChangeUrlListener()
+      vspicgo.mode = mode;
+      uploadImageFromCursor(vspicgo);
     }),
   ];
   context.subscriptions.push(...disposable);
