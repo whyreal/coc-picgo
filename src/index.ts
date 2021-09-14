@@ -5,10 +5,13 @@ import {
   ExtensionContext,
   Uri,
   workspace,
+  window,
+  TextDocument,
+  Range,
+  Command,
 } from 'coc.nvim';
 import * as fs from 'fs';
 import * as path from 'path';
-import { Command, Range, TextDocument } from 'vscode-languageserver-protocol';
 import VSPicgo from './picgo';
 
 function uploadImageFromClipboard(
@@ -22,7 +25,7 @@ async function uploadImageFromInputBox(
 ): Promise<string | void | Error> {
   const doc = await workspace.document;
   if (!doc) return;
-  let result = await workspace.requestInput(
+  let result = await window.requestInput(
     'Please input an image location path',
   );
   if (!result) return;
@@ -36,10 +39,10 @@ async function uploadImageFromInputBox(
     if (fs.existsSync(result)) {
       return vspicgo.upload([result]);
     } else {
-      workspace.showMessage('No such image.');
+      window.showMessage('No such image.');
     }
   } else {
-    workspace.showMessage('No such image.');
+    window.showMessage('No such image.');
   }
 }
 

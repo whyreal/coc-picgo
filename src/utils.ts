@@ -1,4 +1,4 @@
-import { workspace } from 'coc.nvim';
+import { window } from 'coc.nvim';
 import * as path from 'path';
 import { IImgInfo } from 'picgo/dist/src/utils/interfaces';
 import { IOutputUrl, IUploadName } from './picgo';
@@ -51,17 +51,17 @@ function addPeriod(messgae: string) {
 
 export function showWarning(messgae: string) {
   messgae = addPeriod(messgae);
-  workspace.showMessage(`${nls['ext.displayName']}: ${messgae}`);
+  window.showMessage(`${nls['ext.displayName']}: ${messgae}`);
 }
 
 export function showError(messgae: string) {
   messgae = addPeriod(messgae);
-  workspace.showMessage(`${nls['ext.displayName']}: ${messgae}`);
+  window.showMessage(`${nls['ext.displayName']}: ${messgae}`);
 }
 
 export function showInfo(messgae: string) {
   messgae = addPeriod(messgae);
-  workspace.showMessage(`${nls['ext.displayName']}: ${messgae}`);
+  window.showMessage(`${nls['ext.displayName']}: ${messgae}`);
 }
 
 /**
@@ -70,7 +70,7 @@ export function showInfo(messgae: string) {
  * @param imgInfo
  */
 export function getUploadedName(imgInfo: IImgInfo): string {
-  let fullName;
+  let fullName: string;
   if (!imgInfo.fileName) {
     fullName = '';
   } else {

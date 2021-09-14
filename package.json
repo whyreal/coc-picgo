@@ -14,24 +14,24 @@
     "coc": "^0.0.70"
   },
   "scripts": {
+    "lint": "eslint src --ext ts",
     "clean": "rimraf lib",
-    "watch": "webpack --watch",
-    "build": "webpack",
-    "lint": "tslint -c tslint.json -p tsconfig.json --fix",
-    "prepare": "npm-run-all clean build"
+    "watch": "node esbuild.js --watch",
+    "build": "node esbuild.js",
+    "prepare": "node esbuild.js"
   },
   "devDependencies": {
-    "@types/node": "^14.0.13",
-    "coc.nvim": "^0.0.77",
-    "npm-run-all": "^4.1.5",
-    "prettier": "^2.0.5",
+    "@typescript-eslint/eslint-plugin": "^4.8.2",
+    "@typescript-eslint/parser": "^4.8.2",
+    "@types/node": "^16.9.1",
+    "coc.nvim": "^0.0.80",
+    "esbuild": "^0.12.28",
     "rimraf": "^3.0.2",
-    "ts-loader": "^7.0.5",
-    "tslint": "^6.1.2",
-    "tslint-plugin-prettier": "^2.3.0",
-    "typescript": "^3.9.5",
-    "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.11"
+    "typescript": "^4.4.3",
+    "eslint": "^7.14.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "prettier": "^2.2.0"
   },
   "activationEvents": [
     "*"
@@ -263,8 +263,6 @@
     ]
   },
   "dependencies": {
-    "lodash": "^4.17.19",
-    "lodash-id": "^0.14.0",
     "picgo": "^1.4.10"
   }
 }

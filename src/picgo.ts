@@ -1,4 +1,4 @@
-import { Uri, workspace } from 'coc.nvim';
+import { TextEdit, Uri, window, workspace } from 'coc.nvim';
 import { EventEmitter } from 'events';
 import * as fs from 'fs';
 import * as os from 'os';
@@ -6,7 +6,6 @@ import * as path from 'path';
 import PicGo from 'picgo';
 import { IImgInfo, IPlugin } from 'picgo/dist/src/utils/interfaces';
 import { promisify } from 'util';
-import { TextEdit } from 'vscode-languageserver-protocol';
 import {
   formatParam,
   formatString,
@@ -112,7 +111,7 @@ export default class VSPicgo extends EventEmitter {
       if (!doc) return;
       let edits: TextEdit[] = [];
       if (!this.mode) {
-        const position = await workspace.getCursorPosition();
+        const position = await window.getCursorPosition();
         edits = [TextEdit.insert(position, urlText)];
       } else {
         const mode = await workspace.nvim.call('mode');
