@@ -11,7 +11,8 @@ import {
   Command,
 } from 'coc.nvim';
 import * as fs from 'fs';
-import * as path from 'path';
+import {basename, isAbsolute, join} from 'path';
+import {dirname} from 'path/posix';
 import VSPicgo from './picgo';
 import {detectImgUrlRange} from './utils';
 
@@ -28,12 +29,15 @@ async function uploadImageFromCursor(vspicgo: VSPicgo) {
   }
 
   const doc = await workspace.document
-  const url = doc.textDocument.getText(urlRange)
+  let url = doc.textDocument.getText(urlRange)
+  if (!url.startsWith("http")) {
+    url = join(dirname(doc.uri), url).replace(/^file:\/*/, "/")
+  }
 
   if (!url) {
     return window.showMessage('Can not detect image url!!');
   }
-
+  
   return vspicgo.upload([url]);
 }
 
@@ -50,9 +54,9 @@ async function uploadImageFromInputBox(
   // check if `result` is a path of image file
   const imageReg = /\.(png|jpg|jpeg|webp|gif|bmp|tiff|ico)$/;
   if (result && imageReg.test(result)) {
-    result = path.isAbsolute(result)
+    result = isAbsolute(result)
       ? result
-      : path.join(Uri.parse(doc.uri).fsPath, '../', result);
+      : join(Uri.parse(doc.uri).fsPath, '../', result);
     if (fs.existsSync(result)) {
       return vspicgo.upload([result]);
     } else {
