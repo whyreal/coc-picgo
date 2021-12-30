@@ -30,12 +30,11 @@ async function uploadImageFromCursor(vspicgo: VSPicgo) {
 
   const doc = await workspace.document
   let url = doc.textDocument.getText(urlRange)
-  if (!url.startsWith("http")) {
-    url = join(dirname(doc.uri), url).replace(/^file:\/*/, "/")
-  }
-
   if (!url) {
     return window.showMessage('Can not detect image url!!');
+  }
+  if (!url.startsWith("http")) {
+    url = join(dirname(doc.uri), url).replace(/^file:\/*/, "/")
   }
   
   return vspicgo.upload([url]);
