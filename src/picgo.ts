@@ -15,10 +15,6 @@ import {
   detectImgUrlRange,
 } from './utils';
 
-const _ = require('lodash');
-const _db = require('lodash-id');
-_.mixin(_db);
-
 const writeFileP = promisify(fs.writeFile);
 const readFileP = promisify(fs.readFile);
 
@@ -273,9 +269,7 @@ export default class VSPicgo extends EventEmitter {
     if (!data.uploaded) {
       data.uploaded = [];
     }
-    picInfos.forEach(picInfo => {
-      _.insert(data['uploaded'], picInfo);
-    });
+    data['upload'] = (data['upload'] as Array<IImgInfo>).concat(picInfos);
     await writeFileP(dataPath, JSON.stringify(data, null, 2), 'utf8');
   }
 }
