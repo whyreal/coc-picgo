@@ -36,7 +36,7 @@ async function uploadImageFromCursor(vspicgo: VSPicgo) {
   if (!url.startsWith("http")) {
     url = join(dirname(doc.uri), url).replace(/^file:\/*/, "/")
   }
-  
+
   return vspicgo.upload([url]);
 }
 
@@ -92,7 +92,7 @@ class ReactRefactorCodeActionProvider implements CodeActionProvider {
 export async function activate(context: ExtensionContext): Promise<void> {
   const disposable = [
     languages.registerCodeActionProvider(
-      [{ scheme: 'file', pattern: '**/*.{md,markdown}' }],
+      [{scheme: 'file', pattern: '**/*.{md,markdown}'}],
       new ReactRefactorCodeActionProvider(),
       'coc-picgo',
     ),

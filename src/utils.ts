@@ -1,7 +1,7 @@
-import { window, workspace, Range } from 'coc.nvim';
+import {window, workspace, Range} from 'coc.nvim';
 import * as path from 'path';
-import { IImgInfo } from 'picgo/dist/src/utils/interfaces';
-import { IOutputUrl, IUploadName } from './picgo';
+import {IImgInfo} from 'picgo/dist/src/utils/interfaces';
+import {IOutputUrl, IUploadName} from './picgo';
 
 export function formatParam(file: string, mdFileName: string): IUploadName {
   const dt = new Date();
@@ -80,7 +80,7 @@ export function getUploadedName(imgInfo: IImgInfo): string {
   return basename;
 }
 
-export async function detectImgUrlRange(): Promise<Range|undefined> {
+export async function detectImgUrlRange(): Promise<Range | undefined> {
   const doc = await workspace.document
   const cursor = await window.getCursorPosition()
   const line = doc.getline(cursor.line)
@@ -88,8 +88,8 @@ export async function detectImgUrlRange(): Promise<Range|undefined> {
   // ![txt](url "title")
   const link = new RegExp(
     /(!\[[^\[\]]*\]\()/.source // ![txt](
-      + /([^\(\)"]*)/.source // url
-      + /(?:\s*"[^"]*")?\)/.source // "title")
+    + /([^\(\)"]*)/.source // url
+    + /(?:\s*"[^"]*")?\)/.source // "title")
     , 'g');
 
   let matched = line.matchAll(link);

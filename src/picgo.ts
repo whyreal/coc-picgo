@@ -1,11 +1,11 @@
-import { TextEdit, Uri, window, workspace } from 'coc.nvim';
-import { EventEmitter } from 'events';
+import {TextEdit, Uri, window, workspace} from 'coc.nvim';
+import {EventEmitter} from 'events';
 import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
 import PicGo from 'picgo';
-import { IImgInfo, IPlugin } from 'picgo/dist/src/utils/interfaces';
-import { promisify } from 'util';
+import {IImgInfo, IPlugin} from 'picgo/dist/src/utils/interfaces';
+import {promisify} from 'util';
 import {
   formatParam,
   formatString,
@@ -73,7 +73,7 @@ export default class VSPicgo extends EventEmitter {
       );
     } else {
       const picBed = config.get('picBed');
-      VSPicgo.picgo.setConfig({ picBed });
+      VSPicgo.picgo.setConfig({picBed});
     }
   }
 
@@ -86,7 +86,7 @@ export default class VSPicgo extends EventEmitter {
         if (err instanceof SyntaxError) {
           showError(
             `the data file ${this.dataPath} has syntax error, ` +
-              `please fix the error by yourself or delete the data file and vs-picgo will recreate for you.`,
+            `please fix the error by yourself or delete the data file and vs-picgo will recreate for you.`,
           );
         } else {
           showError(
@@ -134,7 +134,7 @@ export default class VSPicgo extends EventEmitter {
         if (err instanceof SyntaxError) {
           showError(
             `the data file ${this.dataPath} has syntax error, ` +
-              `please fix the error by yourself or delete the data file and vs-picgo will recreate for you.`,
+            `please fix the error by yourself or delete the data file and vs-picgo will recreate for you.`,
           );
         } else {
           showError(
@@ -238,7 +238,7 @@ export default class VSPicgo extends EventEmitter {
     if (!fs.existsSync(dataPath)) {
       await writeFileP(
         dataPath,
-        JSON.stringify({ uploaded: [] }, null, 2),
+        JSON.stringify({uploaded: []}, null, 2),
         'utf8',
       );
     }
