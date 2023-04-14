@@ -11,7 +11,7 @@ import {
   Command,
 } from 'coc.nvim';
 import * as fs from 'fs';
-import {basename, isAbsolute, join} from 'path';
+import {isAbsolute, join} from 'path';
 import {dirname} from 'path/posix';
 import VSPicgo from './picgo';
 import {detectImgUrlRange} from './utils';
@@ -25,13 +25,13 @@ function uploadImageFromClipboard(
 async function uploadImageFromCursor(vspicgo: VSPicgo) {
   const urlRange = await detectImgUrlRange()
   if (!urlRange) {
-    return window.showMessage('Can not detect image url!!');
+    return window.showErrorMessage('Can not detect image url!!');
   }
 
   const doc = await workspace.document
   let url = doc.textDocument.getText(urlRange)
   if (!url) {
-    return window.showMessage('Can not detect image url!!');
+    return window.showErrorMessage('Can not detect image url!!');
   }
   if (!url.startsWith("http")) {
     url = join(dirname(doc.uri), url).replace(/^file:\/*/, "/")
@@ -59,10 +59,10 @@ async function uploadImageFromInputBox(
     if (fs.existsSync(result)) {
       return vspicgo.upload([result]);
     } else {
-      window.showMessage('No such image.');
+      window.showErrorMessage('No such image.');
     }
   } else {
-    window.showMessage('No such image.');
+    window.showErrorMessage('No such image.');
   }
 }
 

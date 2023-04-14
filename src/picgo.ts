@@ -151,7 +151,7 @@ export default class VSPicgo extends EventEmitter {
         edits = [TextEdit.insert(position, urlText)];
       } else {
         const mode = await workspace.nvim.call('mode');
-        const range = await workspace.getSelectedRange(mode, doc);
+        const range = await window.getSelectedRange(mode);
         if (!range) return;
         edits = [TextEdit.replace(range, urlText)];
       }
@@ -212,7 +212,7 @@ export default class VSPicgo extends EventEmitter {
       selectedString = '';
     } else {
       const m = await workspace.nvim.call('visualmode');
-      const range = await workspace.getSelectedRange(m, doc);
+      const range = await window.getSelectedRange(m);
       if (!range) return;
       selectedString = doc.textDocument.getText(range);
     }

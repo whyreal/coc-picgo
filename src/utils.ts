@@ -51,17 +51,17 @@ function addPeriod(messgae: string) {
 
 export function showWarning(messgae: string) {
   messgae = addPeriod(messgae);
-  window.showMessage(`${nls['ext.displayName']}: ${messgae}`);
+  window.showInformationMessage(`${nls['ext.displayName']}: ${messgae}`);
 }
 
 export function showError(messgae: string) {
   messgae = addPeriod(messgae);
-  window.showMessage(`${nls['ext.displayName']}: ${messgae}`);
+  window.showInformationMessage(`${nls['ext.displayName']}: ${messgae}`);
 }
 
 export function showInfo(messgae: string) {
   messgae = addPeriod(messgae);
-  window.showMessage(`${nls['ext.displayName']}: ${messgae}`);
+  window.showInformationMessage(`${nls['ext.displayName']}: ${messgae}`);
 }
 
 /**

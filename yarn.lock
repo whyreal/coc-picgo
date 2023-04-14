@@ -584,10 +584,10 @@ co@^4.6.0:
   resolved "https://registry.npmjs.org/co/-/co-4.6.0.tgz#6ea6bdf3d853ae54ccb8e47bfa0bf3f9031fb184"
   integrity sha1-bqa989hTrlTMuOR7+gvz+QMfsYQ=
 
-coc.nvim@^0.0.80:
-  version "0.0.80"
-  resolved "https://registry.nlark.com/coc.nvim/download/coc.nvim-0.0.80.tgz#785145c382660db03f517f9b497900d95cbd0e4f"
-  integrity sha1-eFFFw4JmDbA/UX+bSXkA2Vy9Dk8=
+coc.nvim@^0.0.83-next.9:
+  version "0.0.83-next.9"
+  resolved "https://registry.yarnpkg.com/coc.nvim/-/coc.nvim-0.0.83-next.9.tgz#8f7de8c98fa37019286852d3b7229fb91517ab83"
+  integrity sha512-ek5+EgA9N92/6Wt07TAYpavmBgXZto4Dmwmm56oyBl/w4wy3Tod7LfpCp4k9M4xCxhxPtrflIcxvhdDUPIeMuw==
 
 collection-visit@^1.0.0:
   version "1.0.0"

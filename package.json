@@ -21,17 +21,17 @@
     "prepare": "node esbuild.js"
   },
   "devDependencies": {
+    "@types/node": "^16.9.1",
     "@typescript-eslint/eslint-plugin": "^4.8.2",
     "@typescript-eslint/parser": "^4.8.2",
-    "@types/node": "^16.9.1",
-    "coc.nvim": "^0.0.80",
+    "coc.nvim": "^0.0.83-next.9",
     "esbuild": "^0.12.28",
-    "rimraf": "^3.0.2",
-    "typescript": "^4.4.3",
     "eslint": "^7.14.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-prettier": "^3.1.4",
-    "prettier": "^2.2.0"
+    "prettier": "^2.2.0",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.4.3"
   },
   "activationEvents": [
     "*"
